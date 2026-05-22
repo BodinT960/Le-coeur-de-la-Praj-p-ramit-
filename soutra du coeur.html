@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le cœur de la Prajñāpāramitā</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 2.2;
+            background-color: #f4f1ea;
+            color: #2c2c2c;
+            padding: 40px 20px;
+            max-width: 850px;
+            margin: auto;
+        }
+        h1 {
+            text-align: center;
+            color: #3b3a36;
+            font-weight: 300;
+            letter-spacing: 1px;
+            margin-bottom: 40px;
+        }
+        #texte-tibetain {
+            font-size: 26px;
+            line-height: 2.2;
+            white-space: pre-wrap;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            color: #1a1a1a;
+        }
+        .mot-interactif {
+            position: relative;
+            cursor: pointer;
+            color: inherit;
+            border: none;
+            border-radius: 4px;
+            transition: background-color 0.2s ease;
+        }
+        .mot-interactif:hover {
+            background-color: rgba(212, 175, 55, 0.2);
+        }
+        .mot-interactif .fenetre-traduction {
+            visibility: hidden;
+            width: max-content;
+            max-width: 280px;
+            background-color: rgba(43, 48, 58, 0.95);
+            color: #f8fafc;
+            text-align: center;
+            border-radius: 8px;
+            padding: 12px 16px;
+            font-size: 14px;
+            line-height: 1.5;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            letter-spacing: 0.3px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(4px);
+            position: absolute;
+            z-index: 10;
+            bottom: 140%;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            pointer-events: none;
+        }
+        .mot-interactif .fenetre-traduction::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -6px;
+            border-width: 6px;
+            border-style: solid;
+            border-color: rgba(43, 48, 58, 0.95) transparent transparent transparent;
+        }
+        .mot-interactif:hover .fenetre-traduction {
+            visibility: visible;
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Le cœur de la Prajñāpāramitā</h1>
+    <div id="texte-tibetain"></div>
+
+    <script>
+        const texteOriginal = `སྨྲ་བསམ་བརྗོད་མེད་ཤེས་རབ་ཕ་རོལ་ཕྱིན། །མ་སྐྱེས་མི་འགགས་ནམ་མཁའི་ངོ་བོ་ཉིད་། སོ་སོ་རང་རིག་ཡེ་ཤེས་སྤྱོད་ཡུལ་བ།
+བཅོམ་ལྡན་འདས་མ་ཤེས་རབ་ཀྱི་ཕ་རོལ་ཏུ་ཕྱིན་པའི་སྙིང་པོ།
+༆ རྒྱ་གར་སྐད་དུ། ཨཱཪྱ་བྷ་ག་བ་ཏི་པྲ་ཛྙཱ་པཱ་ར་མི་ཏཱ་ཧྲི་ད་ཡ། བོད་སྐད་དུ། འཕགས་པ་བཅོམ་ལྡན་འདས་མ་ཤེས་རབ་ཀྱི་ཕ་རོལ་ཏུ་ཕྱིན་པའི་སྙིང་པོ༑ བམ་པོ་གཅིག་གོ། སངས་རྒྱས་དང་། བྱང་ཆུབ་སེམས་དཔའ་ཐམས་ཅད་ལ་ཕྱག་འཚལ་ལོ།  །འདི་སྐད་བདག་གིས་ཐོས་པའི་དུས་གཅིག་ན། བཅོམ་ལྡན་འདས་རྒྱལ་བོའི་ཁབ་ན་བྱ་རྒོད་ཕུང་པོའི་རི་ལ་དགེ་སློང་གི་དགེ་འདུན་ཆེན་པོ་དང་། བྱང་ཆུབ་སེམས་དཔའི་དགེ་འདུན་ཆེན་པོ་དང་ཐབས་ཅིག་ཏུ་བཞུགས་ཏེ། དེའི་ཚེ་བཅོམ་ལྡན་འདས་ཟབ་མོ་སྣང་བ་ཞེས་བྱ་བའི་ཆོས་ཀྱི་རྣམ་གྲངས་ཀྱི་ཏིང་ངེ་འཛིན་ལ་སྙོམས་པར་ཞུགས་སོ། །ཡང་དེའི་ཚེ་བྱང་ཆུབ་སེམས་དཔའ་སེམས་དཔའ་ཆེན་པོ་འཕགས་པ་སྤྱན་རས་གཟིགས་དབང་ཕྱུག་ཤེས་རབ་ཀྱི་ཕ་རོལ་ཏུ་ཕྱིན་པ་ཟབ་མོ་སྤྱོད་པར་རྣམ་པར་བལྟ་ཞིང་། ཕུང་པོ་ལྔ་པོ་དེ་དག་ལ་ཡང་ངོ་བོ་ཉིད་ཀྱིས་སྟོང་པར་རྣམ་པར་བལྟའོ།
+།དེ་ནས་སངས་རྒྱས་ཀྱི་མཐུས་ཚེ་དང་ལྡན་པ་ཤཱ་རདྭ་ཏིའི་བུས་བྱང་ཆུབ་སེམས་དཔའ་སེམས་དཔའ་ཆེན་པོ་འཕགས་པ་སྤྱན་རས་གཟིགས་དབང་ཕྱུག་ལ་འདི་སྐད་ཅེས་སྨྲས་སོ།
+།རིགས་ཀྱི་བུའམ། རིགས་ཀྱི་བུ་མོ་གང་ལ་ལ་ཤེས་རབ་ཀྱི་ཕ་རོལ་ཏུ་ཕྱིན་པ་ཟབ་མོའི་སྤྱོད་པ་སྤྱད་པར་འདོད་པ་དེས་ཇི་ལྟར་བསླབ་པར་བྱ། དེ་སྐད་ཅེས་སྨྲས་པ་དང་། བྱང་ཆུབ་སེམས་དཔའ་སེམས་དཔའ་ཆེན་པོ་འཕགས་པ་སྤྱན་རས་གཟིགས་དབང་ཕྱུག་གིས་ཚེ་དང་ལྡན་པ་ཤཱ་རིའི་བུ་ལ་འདི་སྐད་ཅེས་སྨྲས་སོ། །ཤཱ་རིའི་བུ། རིགས་ཀྱི་བུའམ། རིགས་ཀྱི་བུ་མོ་གང་ལ་ལ་ཤེས་རབ་ཀྱི་ཕ་རོལ་ཏུ་ཕྱིན་པ་ཟབ་མོའི་སྤྱོད་པ་སྤྱད་པར་འདོད་པ་དེས་འདི་ལྟར་རྣམ་པར་བལྟ་བར་བྱ་སྟེ། ཕུང་པོ་ལྔ་པོ་དེ་དག་ཀྱང་ངོ་བོ་ཉིད་ཀྱིས་སྟོང་པར་རྣམ་པར་རྗེས་སུ་བལྟའོ། །གཟུགས་སྟོང་པའོ། །སྟོང་པ་ཉིད་གཟུགས་སོ། །གཟུགས་ལས་སྟོང་པ་ཉིད་གཞན་མ་ཡིན། སྟོང་པ་ཉིད་ལས་གཟུགས་གཞན་མ་ཡིན་ནོ། །དེ་བཞིན་དུ་ཚོར་བ་དང་། འདུ་ཤེས་དང་། འདུ་བྱེད་རྣམས་དང་། རྣམ་པར་ཤེས་པ་རྣམས་སྟོང་པའོ། །ཤཱ་རིའི་བུ། དེ་ལྟ་བས་ན།
+ཆོས་ཐམས་ཅད་སྟོང་པ་ཉིད་དེ། མཚན་ཉིད་མེད་པ། མ་སྐྱེས་པ། མ་འགག་པ། དྲི་མ་མེད་པ། དྲི་མ་དང་བྲལ་བ་མེད་པ། བྲི་བ་མེད་པ་། གང་བ་མེད་པའོ། །ཤཱ་རིའི་བུ། དེ་ལྟ་བས་ན་སྟོང་པ་ཉིད་ལ་གཟུགས་མེད། ཚོར་བ་མེད། འདུ་ཤེས་མེད། འདུ་བྱེད་རྣམས་མེད། རྣམ་པར་ཤེས་པ་མེད། མིག་མེད། རྣ་བ་མེད། སྣ་མེད། ལྕེ་མེད༑ ལུས་མེད། ཡིད་མེད། གཟུགས་མེད། སྒྲ་མེད། དྲི་མེད། རོ་མེད། རེག་བྱ་མེད། ཆོས་མེད་དོ། །མིག་གི་ཁམས་མེད་ཅིང་། མིག་གི་རྣམ་པར་ཤེས་པའི་ཁམས་མེད་པ་ནས་ཡིད་ཀྱི་ཁམས་མེད་ཅིང་། ཡིད་ཀྱི་རྣམ་པར་ཤེས་པའི་ཁམས་ཀྱི་བར་དུ་ཡང་མེད་དོ། །མ་རིག་པ་མེད་ཅིང་། མ་རིག་པ་ཟད་པ་མེད་པ་ནས་རྒ་ཤི་མེད་ཅིང་། རྒ་ཤི་ཟད་པའི་བར་དུ་ཡང་མེད་དོ༑ ༑སྡུག་བསྔལ་བ་དང་། ཀུན་འབྱུང་བ་དང་། འགོག་པ་དང་། ལམ་མེད། ཡེ་ཤེས་མེད། ཐོབ་པ་མེད། མ་ཐོབ་པ་ཡང་མེད་དོ། །ཤཱ་རིའི་བུ། དེ་ལྟ་བས་ན། བྱང་ཆུབ་སེམས་དཔའ་རྣམས་ཐོབ་པ་མེད་པའི་ཕྱིར་ཤེས་རབ་ཀྱི་ཕ་རོལ་ཏུ་ཕྱིན་པ་ལ་བརྟེན་ཅིང་གནས་ཏེ། སེམས་ལ་སྒྲིབ་པ་མེད་པས་འཇིགས་པ་མེད་དེ། ཕྱིན་ཅི་ལོག་ལས་ཤིན་ཏུ་འདས་ནས་མྱ་ངན་ལས་འདས་པའི་མཐར་ཕྱིན་ཏོ། །དུས་གསུམ་དུ་རྣམ་པར་བཞུགས་པའི་སངས་རྒྱས་ཐམས་ཅད་ཀྱང་ཤེས་རབ་ཀྱི་ཕ་རོལ་ཏུ་ཕྱིན་པ་ལ་བརྟེན་ཏེ་བླ་ན་མེད་པ་ཡང་དག་པར་རྫོགས་པའི་བྱང་ཆུབ་མངོན་པར་རྫོགས་པར་སངས་རྒྱས་སོ། །དེ་ལྟ་བས་ན། ཤེས་རབ་ཀྱི་ཕ་རོལ་ཏུ་ཕྱིན་པའི་སྔགས། རིག་པ་ཆེན་པོའི་སྔགས། བླ་ན་མེད་པའི་སྔགས། མི་མཉམ་པ་དང་མཉམ་པའི་སྔགས། སྡུག་བསྔལ་ཐམས་ཅད་རབ་ཏུ་ཞི་བར་བྱེད་པའི་སྔགས། མི་རྫུན་པས་ན། བདེན་པར་ཤེས་པར་བྱ་སྟེ། ཤེས་རབ་ཀྱི་ཕ་རོལ་ཏུ་ཕྱིན་པའི་སྔགས་སྨྲས་པ། ཏདྱ་ཐཱ། ཨོཾ་ག་ཏེ་ག་ཏེ་པཱ་ར་ག་ཏེ། པཱ་ར་སཾ་ག་ཏེ། བོ་དྷི་སྭཱ་ཧཱ། ཤཱ་རིའི་བུ། བྱང་ཆུབ་སེམས་དཔའ་སེམས་དཔའ་ཆེན་པོས་ཤེས་རབ་ཀྱི་ཕ་རོལ་ཏུ་ཕྱིན་པ་ཟབ་མོ་ལ་དེ་ལྟར་བསླབ་པར་བྱའོ། །དེ་ནས་བཅོམ་ལྡན་འདས་ཏིང་ངེ་འཛིན་དེ་ལས་བཞེངས་ཏེ་བྱང་ཆུབ་སེམས་དཔའ་སེམས་དཔའ་ཆེན་པོ་འཕགས་པ་སྤྱན་རས་གཟིགས་དབང་ཕྱུག་ལ་ལེགས་སོ། །ཞེས་བྱ་བ་བྱིན་ནས་ལེགས་སོ། །ལེགས་སོ། །རིགས་ཀྱི་བུ། དེ་དེ་བཞིན་ནོ། །དེ་དེ་བཞིན་ཏེ། ཇི་ལྟར་ཁྱོད་ཀྱིས་བསྟན་པ་དེ་བཞིན་དུ་ཤེས་རབ་ཀྱི་ཕ་རོལ་ཏུ་ཕྱིན་པ་ཟབ་མོ་ལ་སྤྱད་པར་བྱ་སྟེ། དེ་བཞིན་གཤེགས་པ་རྣམས་ཀྱང་རྗེས་སུ་ཡི་རང་ངོ་། །བཅོམ་ལྡན་འདས་ཀྱིས་དེ་སྐད་ཅེས་བཀའ་སྩལ་ནས་ཚེ་དང་ལྡན་པ་ཤཱ་རིའི་བུ་དང་། བྱང་ཆུབ་སེམས་དཔའ་འཕགས་པ་སྤྱན་རས་གཟིགས་ཀྱི་དབང་ཕྱུག་དང་། ཐམས་ཅད་དང་ལྡན་པའི་འཁོར་དེ་དག་ལྷ་དང་། མི་དང་། ལྷ་མ་ཡིན་དང་། དྲི་ཟར་བཅས་པའི་འཇིག་རྟེན་ཡི་རང་སྟེ་བཅོམ་ལྡན་འདས་ཀྱིས་གསུངས་པ་ལ་མངོན་པར་བསྟོད་དོ། །བཅོམ་ལྡན་འདས་མ་ཤེས་རབ་ཀྱི་ཕ་རོལ་ཏུ་ཕྱིན་པའི་སྙིང་པོ་ཞེས་བྱ་བ་ཐེག་པ་ཆེན་པོའི་མདོ་རྫོགས་སོ། །རྒྱ་གར་གྱི་མཁན་པོ་བི་མ་ལ་མི་ཏྲ་དང་། ལོ་ཙཱ་བ་དགེ་སློང་རིན་ཆེན་སྡེས་བསྒྱུར་ཅིང་། ཞུ་ཆེན་གྱི་ལོ་ཙཱ་བ་དགེ་བློ་དང་། ནམ་མཁའ་ལ་སོགས་པས་ཞུས་ཏེ་གཏན་ལ་ཕབ་པའོ།། །།`;
+
+        const vocabulaire = {
+            "སྨྲ་": "dire",
+            "བསམ་": "penser",
+            "བརྗོད་": "exprimer",
+            "མེད་": "ne pas",
+            "ཤེས་རབ་ཕ་རོལ་ཕྱིན།": "Prajñāpāramitā",
+            "།མ་སྐྱེས་": "non-né",
+            "མི་འགགས་": "sans obstruction",
+            "ནམ་མཁའི་": "espace (gén.)",
+            "ངོ་བོ་ཉིད་།": "essence elle-même",
+            "སོ་སོ་": "individuel",
+            "རང་རིག་": "propre conscience",
+            "ཡེ་ཤེས་": "sagesse primordiale",
+            "སྤྱོད་ཡུལ་བ།": "domaine d’activité",
+            "།དུས་གསུམ་": "temps trois",
+            "རྒྱལ་བའི་": "victorieux (gén.)",
+            "ཡུམ་ལ་": "mère (p. oblique)",
+            "ཕྱག་འཚལ་ལོ།།": "hommage (p. finale)",
+            "རྒྱ་གར་སྐད་དུ།": "sanskrit + particule oblique",
+            "ཨཱཪྱ་": "Arya",
+            "བྷ་ག་བ་ཏི་": "Bhagavati",
+            "པྲ་ཛྙཱ་": "Prajñā",
+            "པཱ་ར་མི་ཏཱ་": "Paramita",
+            "ཧྲི་ད་ཡ།": "Hritaya",
+            "བོད་སྐད་དུ།": "tibétain + particule oblique",
+            "བཅོམ་ལྡན་འདས་མ་": "Bhagavati",
+            "ཤེས་རབ་ཀྱི་": "Sagesse + particule génitive",
+            "ཕ་རོལ་ཏུ་ཕྱིན་པའི་": "perfection + particule génitive",
+            "སྔགས་": "mantra",
+            "སྙིང་པོ།": "le cœur, l’essence",
+            "བམ་པོ་": "section [d'un texte]",
+            "གཅིག་གོ།": "un + particule finale",     
+            "སངས་རྒྱས་དང་།": "Bouddha + connecteur adjontif", 
+            "ལ་": "particule oblique",
+            "ཕྱག་འཚལ་ལོ།": "rendre hommage + particule finale",
+            "སྙིང་པོ༑": "le cœur, l’essence",
+            "སྙིང་པོ་": "le cœur, l’essence",
+            "།འདི་སྐད་": "ces paroles",
+            "འདི་ལྟར་": "de cette manière, de ​​cette façon",
+            "བདག་གིས་": "moi, je + particule ergative",
+            "ཐོས་པ་": "entendre",
+            "ཐོས་པའི་": "entendre + particule génitive",
+            "དུས་གཅིག་ན།": "un jour + particule oblique",
+            "།བཅོམ་ལྡན་འདས་": "le seigneur",
+            "བཅོམ་ལྡན་འདས་": "Bhagavan",
+            "རྒྱལ་པོའི་ཁབ་": "Rajagriha",
+            "རྒྱལ་བོའི་ཁབ་ན་": "à Rajagriha",
+            "བྱ་རྒོད་": "vautours",
+            "ཕུང་པོའི་རི་ལ་": "pic, mont + particule oblique",
+            "དགེ་སློང་གི་": "moines + particule génitive",
+            "དགེ་འདུན་": "Sangha",
+            "ཆེན་པོ་དང༌།": "grand + connecteur adjontif",
+            "ཆེན་པོ་དང་": "grand (et)",
+            "བྱང་ཆུབ་སེམས་དཔའི་": "Bodhisattvas + particule génitive",
+            "བྱང་ཆུབ་སེམས་དཔའ་": "Bodhisattva",
+            "སེམས་དཔའ་ཆེན་པོ་": "Mahasattva",
+            "སེམས་དཔའ་ཆེན་པོས་": "Mahasattva + particule ergative",
+            "དགེ་འདུན་ཆེན་པོ་དང་": "Sangha noble + connecteur adjontif",
+            "ཐབས་གཅིག་ཏུ་": "en compagnie de + particule oblique",
+            "ཐབས་ཅིག་ཏུ་": "ensemble, de concert",
+            "བཞུགས་ཏེ།": "demeurer + particule de continuité",
+            "བཞུགས་ཏེ": "demeurer",
+            "དེའི་ཚེ་": "à ce moment",
+            "ཟབ་མོ་": "Profonde",
+            "སྣང་བ་": "illumination, apparence",
+            "ཞེས་བྱ་བའི་": "appelé + particule génitive",
+            "ཆོས་ཀྱི་": "phénomènes, dharma + particule génitive",
+            "རྣམ་གྲངས་ཀྱི་": "énumération + particule génitive",
+            "ཏིང་ངེ་འཛིན་ལ་": "Samadhi + particule oblique",
+            "ཏིང་ངེ་འཛིན་": "absorption méditative (Samadhi)",
+            "སྙོམས་པར་": "équilibre, stabilisé + particule oblique",
+            "ཞུགས་སོ།": "demeurer, entré + particule finale",
+            "ཡང་": "aussi, encore",
+            "འཕགས་པ་": "Noble, Arya",
+            "སྤྱན་རས་གཟིགས་": "Tchenrezi, Avalokiteshvara",
+            "དབང་ཕྱུག་": "le-tout-puissant, Ishvara",
+            "ཕ་རོལ་ཏུ་ཕྱིན་པ་": "perfection",
+            "ཟབ་མོ་སྤྱོད་པ་": "profonde pratique",
+            "ཟབ་མོ་": "profonde",
+            "སྤྱོད་པར་": "pratique + particule",
+            "ཉིད་ལ་": "même + particule oblique",
+            "རྣམ་པར་": "complètement, totalement",
+            "བལྟ་ཞིང་།": "voir + connecteur",
+            "ཕུང་པོ་ལྔ་པོ་": "cinq agrégats (Skrt. Skandhas)",
+            "དེ་དག་ལ་": "ces + particule oblique",
+            "རང་བཞིན་གྱིས་": "essence, nature + particule instrumentale",
+            "ངོ་བོ་ཉིད་ཀྱིས་": "par nature, par essence propre",
+            "སྟོང་པར་": "vide + particule oblique",
+            "བལྟའོ།": "voir + particule finale",
+            "དེ་ནས་": "ensuite, après cela",
+            "སངས་རྒྱས་ཀྱི་": "Bouddha + particule génitive",
+            "མཐུས།": "pouvoir + particule instrumentale",
+            "མཐུས་": "par le pouvoir, par la puissance",
+            "ཚེ་དང་ལྡན་པ་": "vénérable (Skrt. Ayushman)",
+            "ཤཱ་རིའི་བུས་": "Shariputra (part. ergative)",
+            "ཤཱ་རདྭ་ཏིའི་བུས་": "Shariputra + particule ergative",
+            "དབང་ཕྱུག་ལ་": "le-tout-puissant + particule oblique",
+            "འདི་སྐད་ཅེས་སྨྲས་སོ།": "a prononcé ces paroles + particule finale",
+            "རིགས་ཀྱི་བུའམ།": "fils de noble famille + connecteur adjontif",
+            "།རིགས་ཀྱི་བུའམ།": "fils de noble famille + connecteur adjontif",
+            "རིགས་ཀྱི་བུ་མོ་": "fille de noble famille",
+            "གང་ལ་ལ་": "qui que ce soit, quiconque",
+            "སྤྱོད་པ་": "pratique, conduite",
+            "སྤྱད་པར་": "faire + particule oblique",
+            "འདོད་པ་": "désir, souhaiter",
+            "དེས་": "cela + particule ergative",
+            "ཇི་ལྟར་": "comment, de quelle manière",
+            "བསླབ་པར་བྱ།": "s’entraîner, doit étudier",
+            "དེ་སྐད་ཅེས་སྨྲས་པ་དང༌།": "prononcer ces paroles + connecteur adjontif",
+            "དེ་སྐད་ཅེས་སྨྲས་པ་དང་": "ayant ainsi parlé + connecteur adjontif",
+            "དབང་ཕྱུག་གིས་": "le-tout-puissant + particule ergative",
+            "ཤཱ་རིའི་བུ་ལ་": "à Shariputra + particule oblique",
+            "ཤཱ་རིའི་བུ།": "Shariputra !",
+            "བལྟ་བར་བྱ་སྟེ།": "doit voir + particule de continuité",
+            "དེ་དག་ཀྱང་": "ces + aussi",
+            "རང་བཞིན་": "nature",
+            "གྱིས་": "(particule ergatif-instrumental)",
+            "ཡང་དག་པར་": "correctement, parfaitement",
+            "རྗེས་སུ་": "après + particule oblique",
+            "རྗེས་སུ་བལྟའོ།": "considérer ainsi + particule finale",
+            "གཟུགས་": "matière, forme (visible)",
+            "སྟོང་པའོ།": "vide + particule finale",
+            "སྟོང་པའོ": "vide",
+            "སྟོང་པ་ཉིད་": "vacuité (Skrt. Shunyata)",
+            "གཟུགས་སོ།": "forme + particule finale",
+            "གཟུགས་ལས་": "forme + particule ablative",
+            "གཞན་": "autre",
+            "མ་ཡིན།": "n’est pas",
+            "མ་ཡིན": "n'est pas",
+            "སྟོང་པ་ཉིད་ལས་": "vacuité + particule ablative",
+            "མ་ཡིན་ནོ།": "n’est pas + particule finale",
+            "དེ་བཞིན་དུ་": "de la même façon",
+            "ཚོར་བ་དང༌།": "sensations + connecteur adjontif",
+            "ཚོར་བ་": "sensation, ressentis",
+            "འདུ་ཤེས་དང༌།": "distinctions + connecteur adjontif",
+            "འདུ་ཤེས་": "distinction, perception",
+            "འདུ་བྱེད་དང༌།": "conditionnants + connecteur adjontif",
+            "འདུ་བྱེད་རྣམས་": "formations conditionnées, volitions",
+            "རྣམ་པར་ཤེས་པ་རྣམས་": "consciences + pluriel",
+            "རྣམ་པར་ཤེས་པ་": "conscience",
+            "དེ་ལྟ་": "ainsi",
+            "དེ་ལྟ་བས་ན་": "c'est pourquoi, par conséquent",
+            "དེ་ལྟ་བས་ན།": "Pour cette raison, donc, ainsi, par conséquent",
+            "ཆོས་ཐམས་ཅད་": "tous les phénomènes, tous les dharmas",
+            "དེ།": "cela",
+            "མཚན་ཉིད་": "caractéristique, signe",
+            "མེད་པ།": "il n’y a pas, sans",
+            "མེད་པ": "sans, inexistant",
+            "མ་སྐྱེས་པ།": "non-né",
+            "མ་སྐྱེས་པ": "non-né",
+            "མ་འགགས་པ།": "pas de cessation",
+            "མ་འགག་པ": "sans cessation",
+            "དྲི་མ་མེད་པ།": "sans souillure, pur",
+            "དྲི་མ་མེད་པ": "sans tâche",
+            "དྲི་མ་དང་བྲལ་བ་མེད་པ།": "pas libre de souillure, ni non-souillé",
+            "དྲི་མ་དང་བྲལ་བ་མེད་པ": "ni exempt de souillure",
+            "བྲི་བ་མེད་པ།": "sans diminution",
+            "བྲི་བ་མེད་པ་": "sans diminution",
+            "གང་བ་མེད་པའོ།": "sans accroissement + particule finale",
+            "མིག་": "Œil",
+            "རྣ་བ་": "oreille",
+            "སྣ་": "nez",
+            "ལྕེ་": "langue",
+            "ལུས་": "corps",
+            "ཡིད་": "mental",
+            "སྒྲ་": "son",
+            "དྲི་": "odeur",
+            "རོ་": "saveur",
+            "རེག་བྱ་": "contact",
+            "ཆོས་": "objet mental",
+            "མེད།": "il n’y a pas",
+            "མེད༑": "il n’y a pas",
+            "མེད་དོ།": "il n’y a pas + particule finale",
+            "མིག་གི་ཁམས་": "dhatu (élément) de l'œil",
+            "མེད་ཅིང་།": "n'existe pas et",
+            "མེད་ཅིང་": "n'est pas et",
+            "མིག་གི་རྣམ་པར་ཤེས་པའི་ཁམས་": "dhatu de la conscience visuelle",
+            "མེད་པ་ནས་": "il n'y a pas + particule ablative",
+            "ཡིད་ཀྱི་ཁམས་": "dhatu du mental",
+            "ཡིད་ཀྱི་རྣམ་པར་ཤེས་པའི་ཁམས་ཀྱི་": "dhatu de la conscience mentale + particule génitivé",
+            "ཡིད་ཀྱི་རྣམ་པར་ཤེས་པའི་ཁམས་": "dhatu de la conscience mentale",
+            "བར་དུ་": "jusqu’à",
+            "བར་དུ་ཡང་": "jusqu'à aussi",
+            "མ་རིག་པ་": "ignorance (Skrt. Avidya)",
+            "མ་རིག་པ་ཟད་པ་": "fin de l’ignorance",
+            "ནས་": "part. ablative (depuis / de)",
+            "རྒ་ཤི་": "vieillissement et mort",
+            "རྒ་ཤི་ཟད་པའི་": "fin du vieillissement et de la mort",
+            "རྒ་ཤི་ཟད་པའི་བར་དུ་ཡང་": "jusqu'à l'extinction de la vieillesse et de la mort",
+            "སྡུག་བསྔལ་བ་དང༌།": "souffrance (et)",
+            "སྡུག་བསྔལ་བ་": "souffrance (Skrt. Dukkha)",
+            "སྡུག་བསྔལ་": "souffrance",
+            "ཀུན་འབྱུང་བ་དང༌།": "origine (et)",
+            "ཀུན་འབྱུང་བ་": "origine, cause (de la souffrance)",
+            "འགོག་པ་": "cessation (Skrt. Nirodha)",
+            "དང༌།": "et",
+            "དང་།": "et",
+            "དོ༑": "particule finale",
+            "ལམ་": "chemin, voie (Skrt. Marga)",
+            "ཐོབ་པ་": "obtention, réalisation",
+            "མ་ཐོབ་པ་": "non obtention",
+            "མ་ཐོབ་པ་ཡང་": "ni non-obtention",
+            "བྱང་ཆུབ་སེམས་དཔའ་རྣམས་": "bodhisattva + particule de pluralisation",
+            "ཐོབ་པ་མེད་པའི་ཕྱིར།": "puisqu’ils n’ont rien à obtenir",
+            "ཐོབ་པ་མེད་པའི་ཕྱིར་": "parce qu'il n'y a pas d'obtention",
+            "ཤེས་རབ་ཀྱི་ཕ་རོལ་ཏུ་ཕྱིན་པ་ཟབ་མོའི་": "la profonde Prajñāpāramitā + particule génitive",
+            "བརྟེན་ཅིང་": "stabiliser + connecteur",
+            "བརྟེན་ནས་": "en s'appuyant sur",
+            "གནས་ཏེ།": "résider + particule de continuité",
+            "གནས་ཏེ་": "demeurent",
+            "སེམས་ལ་སྒྲིབ་པ་མེད་པས་": "l'esprit n'ayant pas de voiles (part. erg.)",
+            "སེམས་ལ་སྒྲིབ་པ་མེད་པས་": "parce que leur esprit est sans voile",
+            "འཇིགས་པ་": "peur, terreur",
+            "མེད་དེ།": "sans + démonstratif",
+            "མེད་དེ་": "n'ont pas de peur, et",
+            "ཕྱིན་ཅི་ལོག་ལས་": "les vues fausses, illusions + particule ablative",
+            "ཤིན་ཏུ་འདས་ནས་": "pleinement dépassé + particule ablative",
+            "མྱ་ངན་ལས་འདས་པའི་": "Nirvana, au-delà de la souffrance + particule génitive",
+            "མཐར་ཕྱིན་ཏོ།": "atteignent le stade ultime, parachever + particule finale",
+            "།དུས་གསུམ་དུ་": "les trois temps + particule oblique",
+            "བཞུགས་པའི་": "demeurer + particule génitive",
+            "སངས་རྒྱས་ཐམས་ཅད་": "tous les bouddhas",
+            "བརྟེན་ནས།": "s’appuyer (part. ablative)",
+            "བརྟེན་ཏེ་": "en s'appuyant sur",
+            "བླ་ན་མེད་པ་": "insurpassable (Anuttara)",
+            "རྫོགས་པའི་": "parfaite (part. gén.)",
+            "ཡང་དག་པར་རྫོགས་པའི་": "parfaitement accompli",
+            "བྱང་ཆུབ་ཏུ་": "éveil (part. oblique)",
+            "བྱང་ཆུབ་": "Éveil (Bodhi)",
+            "མངོན་པར་": "manifestement, pleinement",
+            "རྫོགས་པར་སངས་རྒྱས་སོ།": "bouddhéité parfaite + particule finale",
+            "རྫོགས་པར་སངས་རྒྱས་སོ": "sont pleinement éveillés",
+            "ཤེས་རབ་ཀྱི་ཕ་རོལ་ཏུ་ཕྱིན་པའི་སྔགས།": "le mantra de la Prajñāpāramitā",
+            "རིག་པ་ཆེན་པོའི་": "de la grande connaissance (part. gén.)",
+            "རིག་པ་ཆེན་པོའི་སྔགས།": "le mantra de la grande connaissance",
+            "བླ་ན་མེད་པའི་སྔགས།": "le mantra insurpassable",
+            "མི་མཉམ་པ་": "pas égal, l'inégalable",
+            "དང་མཉམ་པའི་": "égal (part. gén.)",
+            "མི་མཉམ་པ་དང་མཉམ་པའི་སྔགས།": "le mantra égal à l'inégalable",
+            "ཐམས་ཅད་": "tout, tous",
+            "རབ་ཏུ་ཞི་བར་བྱེད་པའི་": "qui pacifie complètement (gén.)",
+            "རབ་ཏུ་ཞི་བར་བྱེད་པའི་སྔགས།": "le mantra qui apaise complètement",
+            "མི་བརྫུན་པས་ན་": "puisque ce n'est pas mensonger",
+            "མི་རྫུན་པས་ན།": "car il ne trompe pas",
+            "བདེན་པར་": "comme vrai, vérité",
+            "ཤེས་པར་བྱ་སྟེ།": "il faut le reconnaître + particule continuative",
+            "ཤེས་པར་བྱ་སྟེ": "on doit le savoir",
+            "སྨྲས་པ།": "proclamé, dit",
+            "ཏདྱ་ཐ།": "Tadyatha (ainsi soit-il) :",
+            "ག་ཏེ་ག་ཏེ།": "Gate gate (allé, allé),",
+            "ག་ཏེ་ག་提།": "Gate gate (allé, allé),",
+            "པ་ར་ག་ཏེ།": "paragate (allé au-delà),",
+            "པ་ར་སཾ་ག་ཏེ།": "parasamgate (complètement allé au-delà),",
+            "བོ་དྷི་སྭཱཧཱ།": "Bodhi svaha ! (Hommage à l'éveil !)",
+            "དེ་ལྟར་": "ainsi, de cette façon",
+            "ཟབ་མོ་ལ་": "profonde + particule oblique",
+            "བསླབ་པར་བྱའོ།": "doit s’y exercer + particule finale",
+            "དེ་ནས་": "alors, puis",
+            "དེ་ལས་": "cela + particule ablative",
+            "བཞེངས་ཏེ།": "se leva (méditation)",
+            "བཞེངས་ཏེ་": "sortit de, se leva",
+            "ལེགས་སོ་ཞེས་": "« très bien »",
+            "ཞེས་བྱ་བ་བྱིན་ནས་": "ainsi disant, il approuva",
+            "ལེགས་སོ་": "très bien !",
+            "ལེགས་སོ།": "Très bien !",
+            "།རིགས་ཀྱི་བུ་": "Fils de noble famille",
+            "།རིགས་ཀྱི་བུ།": "fils de noble famille",
+            "དེ་དེ་བཞིན་ནོ།": "c'est exactement ainsi",
+            "དེ་དེ་བཞིན་ཏེ།": "il en est ainsi",
+            "ཁྱོད་": "toi",
+            "ཀྱིས་": "particule instrumentale",
+            "བསྟན་པ་": "enseigné",
+            "བསྟན་པ་དེ་བཞིན་དུ་": "exactement comme [tu] l'as enseigné",
+            "སྤྱད་པར་བྱ་སྟེ།": "il faut le pratiquer (continuité)",
+            "དེ་བཞིན་གཤེགས་པ་རྣམས་": "les Tathagatas (les Ainsi-Allés)",
+            "ཀྱང་": "aussi, également",
+            "རྗེས་སུ་ཡི་རང་ངོ་།": "se réjouissent + particule finale",
+            "རྗེས་སུ་ཡི་རང་ངོ་": "approuvent avec joie",
+            "དེ་སྐད་ཅེས་བཀའ་སྩལ་ནས་": "ayant ainsi parlé + particule ablative",
+            "སྐད་ཅེས་བཀའ་སྩལ་ནས་།": "ayant ainsi parlé (ablative)",
+            "བཀའ་སྩལ་ནས་": "ayant dit cela",
+            "ཤཱ་ཪ་དྭ་ཏིའི་བུ་དང༌།": "Shariputra (et)",
+            "ཤཱ་རིའི་བུ་དང་།": "Shariputra et",
+            "བྱང་ཆུབ་སེམས་དཔའ་འཕགས་པ་སྤྱན་རས་གཟིགས་ཀྱི་དབང་ཕྱུག་དང་།": "le Noble Bodhisattva, le tout-puissant Avalokiteshvara et",
+            "བྱང་ཆུབ་སེམས་དཔའ་འཕགས་པ་སྤྱན་རས་གཟིགས་ཀྱི་དབང་ཕྱུག་": "le noble Bodhisattva Avalokiteshvara",
+            "ཐམས་ཅད་": "tous",
+            "དང་ལྡན་པའི་": "pourvu de, doté de + particule génitive",
+            "འཁོར་": "assemblée, entourage",
+            "དེ་དག་": "ceux-ci, ces",
+            "ལྷ་དང་།": "les dieux + connecteur adjontif",
+            "མི་དང་།": "les humains + connecteur adjontif",
+            "ལྷ་མ་ཡིན་དང་།": "les asuras (demi-dieux) + connecteur adjontif",
+            "དྲི་ཟར་བཅས་པའི་": "ainsi que les gandharvas (musiciens célestes) + particule génitive",
+            "འཇིག་རྟེན་": "le monde, l'univers",
+            "ཡི་རང་སྟེ་": "se réjouissant",
+            "གསུངས་པ་ལ་": "à ce qui a été dit + particule oblique",
+            "མངོན་པར་བསྟོད་དོ།": "louèrent hautement + particule finale",
+            "།བཅོམ་ལྡན་འདས་མ་": "bhagavati",
+            "ཞེས་བྱ་བ་": "intitulé, nommé",
+            "ཐེག་པ་ཆེན་པོའི་": "du Grand Véhicule (Mahayana)",
+            "མདོ་": "sutra",
+            "རྫོགས་སོ།": "est achevé + particule finale", 
+            "།རྒྱ་གར་གྱི་": "Inde + particule génitive",
+            "མཁན་པོ་": "Khenpo, l'abbé (érudit)",
+            "བི་མ་ལ་མི་ཏྲ་": "Vimalamitra",
+            "ལོ་ཙཱ་བ་": "Lotsawa (traducteur)",
+            "དགེ་སློང་": "Bhikshu (moine ordonné)",
+            "རིན་ཆེན་སྡེས་": "Rinchen Dé + particule ergative",
+            "བསྒྱུར་ཅིང་།": "traduit + connecteur",
+            "ཞུ་ཆེན་གྱི་": "la grande révision + particule génitive",
+            "དགེ་བློ་": "Gélo",
+            "ནམ་མཁའ་": "Namkhai",
+            "ལ་སོགས་པས་": "et les autres  + particule ergative instrumentale",
+            "ཞུས་ཏེ་": "corrigé, révisé",
+            "གཏན་ལ་ཕབ་པའོ།། །།": "établi définitivement + particule finale"
+        };
+
+        // 1. Trier les clés par longueur décroissante (les expressions composées d'abord)
+        const clesTriees = Object.keys(vocabulaire).sort((a, b) => b.length - a.length);
+        
+        // 2. Collecter toutes les positions de correspondance sans modifier quoi que ce soit
+        const toutesCorrespondances = [];
+        clesTriees.forEach(cle => {
+            let pos = texteOriginal.indexOf(cle);
+            while (pos !== -1) {
+                toutesCorrespondances.push({
+                    start: pos,
+                    end: pos + cle.length,
+                    cle: cle,
+                    traduction: vocabulaire[cle]
+                });
+                // Recherche de la prochaine occurrence de la même clé
+                pos = texteOriginal.indexOf(cle, pos + 1);
+            }
+        });
+
+        // 3. Trier les correspondances par position de départ, puis par longueur décroissante
+        toutesCorrespondances.sort((a, b) => {
+            if (a.start !== b.start) {
+                return a.start - b.start; // Ordre chronologique de lecture
+            }
+            return b.cle.length - a.cle.length; // Plus long d'abord si même index
+        });
+
+        // 4. Sélection gloutonne (Greedy Selection)
+        const correspondancesRetenues = [];
+        let dernierIndexFin = 0;
+
+        toutesCorrespondances.forEach(match => {
+            // Si le début de la correspondance est après ou égal à la fin de la dernière retenue
+            if (match.start >= dernierIndexFin) {
+                correspondancesRetenues.push(match);
+                dernierIndexFin = match.end; // On met à jour la frontière
+            }
+        });
+
+        // 5. Construire le HTML final en une seule passe linéaire sur le texte brut
+        let htmlFinal = "";
+        let indexCourant = 0;
+
+        correspondancesRetenues.forEach(match => {
+            // Ajouter le texte brut situé avant la correspondance
+            htmlFinal += texteOriginal.substring(indexCourant, match.start);
+            // Ajouter la balise HTML pour le mot interactif
+            htmlFinal += `<span class="mot-interactif">${match.cle}<span class="fenetre-traduction">${match.traduction}</span></span>`;
+            // Avancer l'index courant à la fin du mot traité
+            indexCourant = match.end;
+        });
+        
+        // Ajouter le reste du texte après la dernière correspondance
+        htmlFinal += texteOriginal.substring(indexCourant);
+
+        // Injection du résultat final sécurisé
+        document.getElementById('texte-tibetain').innerHTML = htmlFinal;
+    </script>
+</body>
+</html>
